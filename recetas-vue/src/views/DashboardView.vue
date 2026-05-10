@@ -105,7 +105,7 @@ function confirmDeleteIngredient() {
 </script>
 
 <template>
-  <div class="max-w-container-max mx-auto px-5 md:px-16 py-12">
+  <div class="max-w-300 mx-auto px-5 md:px-16 py-12">
 
     <!-- Header -->
     <header class="mb-12">
@@ -138,7 +138,7 @@ function confirmDeleteIngredient() {
 
     <!-- ======== TAB: MIS RECETAS ======== -->
     <section v-if="activeTab === 'recipes'">
-      <div v-if="loadingRecipes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      <div v-if="loadingRecipes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="i in 6" :key="i" class="animate-pulse">
           <div class="aspect-4/3 bg-surface-container-high mb-4"></div>
           <div class="h-4 bg-surface-container-high w-3/4 mb-2"></div>
@@ -148,7 +148,7 @@ function confirmDeleteIngredient() {
 
       <div v-else>
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter transition-opacity duration-200"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-200"
           :class="{ 'opacity-60': fetchingRecipes }"
         >
           <article
@@ -157,7 +157,7 @@ function confirmDeleteIngredient() {
             class="border border-primary/10 bg-surface-container-lowest flex flex-col group"
             style="box-shadow: 0 20px 40px -20px rgba(0,0,0,0.04)"
           >
-            <RouterLink :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }" class="aspect-4/3 overflow-hidden block">
+            <RouterLink :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }" class="aspect-3/2 overflow-hidden block">
               <img :src="recipeImage(recipe)" :alt="recipe.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             </RouterLink>
 
@@ -243,7 +243,7 @@ function confirmDeleteIngredient() {
       </div>
 
       <!-- Skeleton -->
-      <div v-if="loadingIngredients" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+      <div v-if="loadingIngredients" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div v-for="i in 8" :key="i" class="animate-pulse border border-primary/10 p-4">
           <div class="h-5 bg-surface-container-high w-3/4 mb-2"></div>
           <div class="h-3 bg-surface-container-high w-1/2"></div>
@@ -251,7 +251,7 @@ function confirmDeleteIngredient() {
       </div>
 
       <!-- Grid -->
-      <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+      <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div
           v-for="ingredient in ingredients"
           :key="ingredient.id"

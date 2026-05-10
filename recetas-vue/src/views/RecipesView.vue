@@ -53,7 +53,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
 </script>
 
 <template>
-  <div class="max-w-container-max mx-auto px-5 md:px-16 py-12">
+  <div class="max-w-300 mx-auto px-5 md:px-16 py-12">
 
     <!-- Header -->
     <div class="mb-10">
@@ -104,7 +104,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
     </div>
 
     <!-- Loading skeleton -->
-    <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16">
+    <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16">
       <div v-for="i in 12" :key="i" class="animate-pulse">
         <div class="aspect-3/2 bg-surface-container-high mb-6"></div>
         <div class="h-3 bg-surface-container-high w-24 mb-3"></div>
@@ -117,7 +117,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
     <!-- Recipe grid — isFetching añade opacidad mientras carga la siguiente página -->
     <div
       v-else-if="recipes.length"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16 transition-opacity duration-200"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16 transition-opacity duration-200"
       :class="{ 'opacity-60': isFetching }"
     >
       <RouterLink

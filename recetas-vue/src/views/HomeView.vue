@@ -30,7 +30,7 @@ function recipeImage(recipe) {
   <div>
     <!-- Hero -->
     <section
-      class="max-w-container-max mx-auto px-5 md:px-16 pt-12 pb-24 flex flex-col items-center text-center"
+      class="max-w-300 mx-auto px-5 md:px-16 pt-12 pb-24 flex flex-col items-center text-center"
     >
       <!-- Editorial hero image -->
       <div class="w-full mb-16 overflow-hidden border border-primary/5">
@@ -69,7 +69,7 @@ function recipeImage(recipe) {
     </section>
 
     <!-- Recetas de Portada -->
-    <section class="max-w-container-max mx-auto px-5 md:px-16 pb-24">
+    <section class="max-w-300 mx-auto px-5 md:px-16 pb-24">
       <div class="flex justify-between items-end mb-12">
         <h2 class="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
           Recetas de Portada
@@ -83,7 +83,7 @@ function recipeImage(recipe) {
       </div>
 
       <!-- Loading skeleton -->
-      <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-x-gutter gap-y-16">
+      <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-16">
         <div v-for="i in 3" :key="i" class="animate-pulse">
           <div class="aspect-3/2 bg-surface-container-high mb-6"></div>
           <div class="h-3 bg-surface-container-high w-24 mb-3"></div>
@@ -94,7 +94,7 @@ function recipeImage(recipe) {
       </div>
 
       <!-- Recipe grid -->
-      <div v-else-if="recipes.length" class="grid grid-cols-1 md:grid-cols-3 gap-x-gutter gap-y-16">
+      <div v-else-if="recipes.length" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-16">
         <RouterLink
           v-for="recipe in recipes"
           :key="recipe.id"

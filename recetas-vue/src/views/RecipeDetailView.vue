@@ -57,7 +57,7 @@ function share() {
 <template>
   <div>
     <!-- Loading skeleton -->
-    <div v-if="isLoading" class="max-w-container-max mx-auto px-5 md:px-16 pt-12 animate-pulse">
+    <div v-if="isLoading" class="max-w-300 mx-auto px-5 md:px-16 pt-12 animate-pulse">
       <div class="h-4 bg-surface-container-high w-32 mb-4 rounded"></div>
       <div class="h-12 bg-surface-container-high w-2/3 mb-3 rounded"></div>
       <div class="h-6 bg-surface-container-high w-full mb-8 rounded"></div>
@@ -65,14 +65,14 @@ function share() {
     </div>
 
     <!-- Error -->
-    <div v-else-if="isError" class="max-w-container-max mx-auto px-5 md:px-16 py-24 text-center">
+    <div v-else-if="isError" class="max-w-300 mx-auto px-5 md:px-16 py-24 text-center">
       <span class="material-symbols-outlined text-5xl text-outline-variant mb-4 block">error</span>
       <p class="text-on-surface-variant">No se encontró la receta.</p>
     </div>
 
     <template v-else-if="recipe">
       <!-- Hero -->
-      <header class="max-w-container-max mx-auto px-5 md:px-16 pt-12">
+      <header class="max-w-300 mx-auto px-5 md:px-16 pt-12">
         <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-8">
           <div class="max-w-2xl">
             <!-- Category + difficulty tags -->
@@ -136,7 +136,7 @@ function share() {
 
       <!-- Content grid -->
       <section
-        class="max-w-container-max mx-auto px-5 md:px-16 grid grid-cols-1 lg:grid-cols-12 gap-16 pb-24"
+        class="max-w-300 mx-auto px-5 md:px-16 grid grid-cols-1 lg:grid-cols-12 gap-16 pb-24"
       >
         <!-- Ingredients sidebar -->
         <aside class="lg:col-span-4">

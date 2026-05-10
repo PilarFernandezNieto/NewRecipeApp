@@ -118,7 +118,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="max-w-container-max mx-auto px-5 md:px-16 py-12">
+  <div class="max-w-300 mx-auto px-5 md:px-16 py-12">
     <!-- Header -->
     <div class="mb-10">
       <RouterLink

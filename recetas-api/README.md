@@ -1,58 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# recetas-api — Backend Laravel 12
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API REST del proyecto Recetario. Gestiona autenticación, recetas, categorías, ingredientes, valoraciones y favoritos.
 
-## About Laravel
+## Requisitos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP >= 8.3
+- Composer
+- MySQL
+- Extensiones PHP: `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalación
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan storage:link
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Variables de entorno (.env)
 
-## Contributing
+Copia `.env.example` y rellena los valores:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```env
+APP_NAME="Recetario API"
+APP_ENV=local
+APP_URL=http://localhost:8000
 
-## Code of Conduct
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=recetario
+DB_USERNAME=root
+DB_PASSWORD=
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+FILESYSTEM_DISK=public
+```
 
-## Security Vulnerabilities
+Nunca subas `.env` a git. Está incluido en `.gitignore`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Estructura relevante
 
-## License
+```
+recetas-api/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/Api/     # AuthController, RecipeController, CategoryController,
+│   │   │                        # IngredientController, DifficultyController
+│   │   ├── Middleware/          # EnsureUserIsAdmin
+│   │   ├── Requests/            # Form Requests con validación (Auth, Recipe, Category, Ingredient)
+│   │   └── Resources/           # API Resources: RecipeResource, RecipeCollection, etc.
+│   ├── Models/                  # User, Recipe, Category, Ingredient, Rating, Favorite, Difficulty
+│   └── Policies/                # RecipePolicy, UserPolicy
+├── database/
+│   ├── migrations/              # Esquema completo de la base de datos
+│   └── seeders/
+├── routes/
+│   └── api.php                  # Todas las rutas de la API
+└── storage/
+    └── app/public/recipes/      # Imágenes subidas (accesibles via /storage/recipes/)
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Rutas de la API
+
+Base URL: `http://localhost:8000/api`
+
+### Autenticación
+
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| POST | `/auth/register` | Público | Registro de usuario |
+| POST | `/auth/login` | Público | Login, devuelve token |
+| POST | `/auth/logout` | Auth | Cierra sesión |
+| GET | `/auth/me` | Auth | Datos del usuario actual |
+| POST | `/auth/forgot-password` | Público | Solicitar reset de contraseña |
+| POST | `/auth/reset-password` | Público | Resetear contraseña |
+
+### Recetas
+
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| GET | `/recipes` | Público | Listado paginado con filtros |
+| GET | `/recipes/{slug}` | Público | Detalle de receta |
+| POST | `/recipes` | Admin | Crear receta |
+| POST | `/recipes/{slug}` | Admin | Actualizar receta |
+| DELETE | `/recipes/{slug}` | Admin | Eliminar receta |
+
+**Filtros disponibles en GET /recipes:**
+
+| Parámetro | Tipo | Descripción |
+|---|---|---|
+| `page` | int | Número de página |
+| `per_page` | int | Resultados por página |
+| `search` | string | Búsqueda por título o descripción |
+| `category` | string | Slug de categoría |
+| `difficulty` | string | Slug de dificultad |
+| `ingredient` | string | Slug de ingrediente |
+| `mine` | boolean | Solo recetas del usuario autenticado |
+
+### Categorías
+
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| GET | `/categories` | Público | Listado de categorías |
+| GET | `/categories/{slug}` | Público | Detalle de categoría |
+| POST | `/categories` | Admin | Crear categoría |
+| POST | `/categories/{slug}` | Admin | Actualizar categoría |
+| DELETE | `/categories/{slug}` | Admin | Eliminar categoría |
+
+### Ingredientes
+
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| GET | `/ingredients` | Público | Listado de ingredientes |
+| GET | `/ingredients/{slug}` | Público | Detalle de ingrediente |
+| POST | `/ingredients` | Admin | Crear ingrediente |
+| PUT | `/ingredients/{slug}` | Admin | Actualizar ingrediente |
+| DELETE | `/ingredients/{slug}` | Admin | Eliminar ingrediente |
+
+### Dificultades
+
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| GET | `/difficulties` | Público | Listado de dificultades |
+
+## Modelos y relaciones
+
+```
+User ──────────< Recipe >────────── Category
+                   │  └──────────── Difficulty
+                   │
+                   ├──< Rating (score, comment)
+                   ├──< Favorite
+                   └──>< Ingredient (pivot: quantity, unit)
+```
+
+## Autenticación
+
+Se usa **Laravel Sanctum** con tokens Bearer. El frontend debe enviar:
+
+```
+Authorization: Bearer {token}
+```
+
+El token se obtiene al hacer login o register y debe guardarse en el cliente (localStorage).
+
+## Imágenes de recetas
+
+- Se almacenan en `storage/app/public/recipes/`
+- Accesibles públicamente en `/storage/recipes/{filename}` (requiere `php artisan storage:link`)
+- Validación actual: `nullable | image | max:2048` (2 MB máximo)
+- Tamaño recomendado de subida: **800 × 533 px**, formato JPG/PNG/WebP
+
+## Roles de usuario
+
+| Rol | Permisos |
+|---|---|
+| `user` | Leer recetas, crear favoritos, valorar |
+| `admin` | Todo lo anterior + crear/editar/eliminar recetas, categorías e ingredientes |
+
+## Comandos útiles
+
+```bash
+# Limpiar caché de configuración
+php artisan config:clear
+
+# Ver todas las rutas registradas
+php artisan route:list
+
+# Crear enlace simbólico para storage
+php artisan storage:link
+
+# Ejecutar tests
+php artisan test
+```

@@ -23,7 +23,7 @@ async function logout() {
 <template>
   <header class="w-full bg-surface border-b border-primary/10 sticky top-0 z-50">
     <nav
-      class="flex justify-between items-center w-full px-5 md:px-16 py-4 max-w-container-max mx-auto"
+      class="flex justify-between items-center w-full px-5 md:px-16 py-4 max-w-300 mx-auto"
     >
       <!-- Logo -->
       <RouterLink to="/" class="font-display text-2xl font-bold text-primary">
