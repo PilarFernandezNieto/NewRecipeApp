@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sabor y Sentido - Crear Receta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#4e6953",
+                        "primary-fixed-dim": "#c8c6c6",
+                        "inverse-surface": "#303129",
+                        "on-background": "#1b1c15",
+                        "secondary": "#4a654f",
+                        "on-error": "#ffffff",
+                        "background": "#fcfaed",
+                        "primary-fixed": "#e4e2e1",
+                        "outline": "#747878",
+                        "surface-container": "#f0eee2",
+                        "on-primary-fixed": "#1b1c1c",
+                        "secondary-fixed-dim": "#b0ceb4",
+                        "surface-container-low": "#f6f4e8",
+                        "surface-container-high": "#eae8dd",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "primary": "#1e1e1e",
+                        "surface-dim": "#dcdacf",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary-container": "#9c9b9b",
+                        "on-surface": "#1b1c15",
+                        "surface": "#fcfaed",
+                        "on-tertiary-fixed-variant": "#46473f",
+                        "inverse-on-surface": "#f3f1e5",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e5e3d7",
+                        "on-secondary-fixed": "#062010",
+                        "error": "#ba1a1a",
+                        "tertiary": "#1e1f18",
+                        "inverse-primary": "#c8c6c6",
+                        "primary-container": "#333333",
+                        "surface-variant": "#e5e3d7",
+                        "on-surface-variant": "#444748",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#fcfaed",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#c9e7cc",
+                        "tertiary-container": "#33342c",
+                        "tertiary-fixed-dim": "#c7c7bc",
+                        "on-tertiary-container": "#9c9c92",
+                        "on-secondary-fixed-variant": "#334d38",
+                        "secondary-fixed": "#cceacf",
+                        "tertiary-fixed": "#e4e3d7",
+                        "on-tertiary-fixed": "#1b1c15",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#474747"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "container-max-width": "1200px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Work Sans"],
+                        "label-md": ["Work Sans"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "label-sm": ["Work Sans"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-lg": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-editorial {
+            @apply bg-transparent border-t-0 border-x-0 border-b border-primary/20 focus:ring-0 focus:border-primary transition-all py-2 px-0;
+        }
+        .kitchen-mode-toggle {
+            @apply relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-primary/10 w-full z-50 sticky top-0">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max-width mx-auto">
+<h1 class="font-display-lg text-headline-lg text-primary">Sabor y Sentido</h1>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Explorar</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Mis Recetas</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Crear</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-container-max-width mx-auto w-full px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-3xl mx-auto">
+<!-- Page Header -->
+<div class="mb-12 text-center">
+<h2 class="font-headline-md text-display-lg mb-4">Nueva Creación</h2>
+<p class="font-body-md text-body-lg text-on-surface-variant italic">Inmortaliza tus secretos culinarios con la precisión de un profesional.</p>
+</div>
+<!-- Section 1: Importar desde Redes -->
+<section class="mb-16 bg-surface-container-low p-8 border border-primary/5 rounded-lg shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-headline-md text-headline-md">Importar desde Redes</h3>
+</div>
+<div class="space-y-4">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest" for="url-import">Enlace de Instagram, TikTok o Web</label>
+<div class="flex gap-4">
+<input class="flex-grow bg-transparent border-0 border-b border-primary/20 py-3 focus:ring-0 focus:border-secondary transition-all font-body-md text-body-md" id="url-import" placeholder="https://instagram.com/recepta..." type="url"/>
+<button class="bg-primary text-on-primary px-8 py-3 font-label-md text-label-md hover:bg-primary/90 transition-all active:scale-95">
+                            Extraer
+                        </button>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70 italic">Usaremos IA para organizar los ingredientes y pasos por ti.</p>
+</div>
+</section>
+<!-- Section 2: Detalles de la Receta -->
+<section class="space-y-12">
+<div class="flex items-center justify-between border-b border-primary/10 pb-4">
+<h3 class="font-headline-md text-headline-md">Detalles de la Receta</h3>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Modo Cocina</span>
+<button class="bg-secondary-container relative inline-flex h-5 w-10 items-center rounded-full transition-colors focus:outline-none" type="button">
+<span class="translate-x-1 inline-block h-3 w-3 transform rounded-full bg-secondary transition-transform"></span>
+</button>
+</div>
+</div>
+<!-- Basic Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-8">
+<div class="group">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Título de la Obra</label>
+<input class="w-full bg-transparent border-0 border-b border-primary/20 py-2 focus:ring-0 focus:border-primary transition-all font-display-lg text-headline-lg placeholder:opacity-20" placeholder="Ej. Risotto de Setas Silvestres" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Tiempo</label>
+<div class="flex items-center gap-2 border-b border-primary/10 py-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="schedule">schedule</span>
+<input class="bg-transparent border-0 w-full focus:ring-0 font-body-md" placeholder="45 min" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Porciones</label>
+<div class="flex items-center gap-2 border-b border-primary/10 py-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="restaurant">restaurant</span>
+<input class="bg-transparent border-0 w-full focus:ring-0 font-body-md" placeholder="2-4 pers." type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Cover Image Upload -->
+<div class="relative aspect-[4/3] bg-surface-container-high border border-dashed border-primary/20 flex flex-col items-center justify-center cursor-pointer group hover:bg-surface-container-highest transition-colors">
+<img alt="Recipe Placeholder" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity" data-alt="A moody, high-end culinary photograph of a dark kitchen counter with soft side lighting highlighting fresh herbs and a chef knife. The aesthetic is professional editorial food journalism with deep shadows and warm cream tones, evoking a sense of quiet luxury and focused craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeeqVehZ2RkTJ5gODy5n9SxMmPGgmsb0wh1ENBIt08M86OWwFxc55-HU0np3huoqOWc8oqO9DNMGZ7-rMXRmbkoJ9ckW9CfdvOoAGTLC5p-BOiKBPBjvfa4oKEr3XHjLgIbBmX3mURm7ar_PmbXUfoY2Nw8Xh36UK6EUAcauw0N4gfelg9rwMVfzzpUyy1C3X4lRnrld7OlbgdoI5VpZ7J_xXgwnmHeoaKSgyNU4Iz819FHKoFyZdDBDjI1wRwlvjmWoHzCZumH2g"/>
+<span class="material-symbols-outlined text-4xl mb-2 text-primary/40" data-icon="add_a_photo">add_a_photo</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Subir Portada</span>
+</div>
+</div>
+<!-- Ingredients Selection -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md">Ingredientes</h4>
+<button class="text-secondary hover:underline font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Añadir Grupo
+                        </button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 py-3 border-b border-primary/5 group">
+<span class="w-8 h-8 rounded-full border border-primary/20 flex items-center justify-center text-xs font-bold text-primary/30">1</span>
+<input class="flex-grow bg-transparent border-0 focus:ring-0 font-body-md text-body-md" type="text" value="300g de Arroz Carnaroli"/>
+<button class="opacity-0 group-hover:opacity-100 text-error transition-opacity">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-3 border-b border-primary/5 group">
+<span class="w-8 h-8 rounded-full border border-primary/20 flex items-center justify-center text-xs font-bold text-primary/30">2</span>
+<input class="flex-grow bg-transparent border-0 focus:ring-0 font-body-md text-body-md" type="text" value="500ml de Caldo de Ave casero"/>
+<button class="opacity-0 group-hover:opacity-100 text-error transition-opacity">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-3 border-b border-primary/5">
+<span class="w-8 h-8 rounded-full border border-primary/20 flex items-center justify-center text-xs font-bold text-primary/30">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</span>
+<input class="flex-grow bg-transparent border-0 focus:ring-0 font-body-md text-body-md italic opacity-50" placeholder="Siguiente ingrediente..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Instructions -->
+<div class="space-y-8">
+<h4 class="font-headline-md text-headline-md border-b border-primary/10 pb-4">Preparación Passo a Passo</h4>
+<div class="space-y-12">
+<div class="relative pl-12 border-l border-primary/10">
+<div class="absolute -left-3 top-0 w-6 h-6 bg-primary text-on-primary rounded-full flex items-center justify-center text-[10px] font-bold">01</div>
+<textarea class="w-full bg-transparent border-0 focus:ring-0 font-body-md text-body-lg p-0 resize-none" placeholder="Describe el primer paso de la alquimia..." rows="3"></textarea>
+<div class="mt-4 flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 border border-primary/10 rounded-sm hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="image">image</span>
+<span class="font-label-sm text-label-sm">Añadir Foto</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 border border-primary/10 rounded-sm hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="timer">timer</span>
+<span class="font-label-sm text-label-sm">Temporizador</span>
+</button>
+</div>
+</div>
+<div class="relative pl-12 border-l border-primary/10">
+<div class="absolute -left-3 top-0 w-6 h-6 bg-surface-container-highest text-on-surface-variant rounded-full flex items-center justify-center text-[10px] font-bold">02</div>
+<textarea class="w-full bg-transparent border-0 focus:ring-0 font-body-md text-body-lg p-0 resize-none opacity-50" placeholder="Siguiente paso..." rows="1"></textarea>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="pt-12 flex flex-col md:flex-row gap-4 justify-between items-center border-t border-primary/10 mt-12">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span> Previsualizar
+                    </button>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-grow md:flex-none px-8 py-3 border border-primary text-primary font-label-md text-label-md hover:bg-primary/5 transition-all">
+                            Guardar Borrador
+                        </button>
+<button class="flex-grow md:flex-none px-12 py-3 bg-primary text-on-primary font-label-md text-label-md hover:bg-primary/90 transition-all shadow-lg active:scale-95">
+                            Publicar Receta
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-primary/10 w-full mt-auto">
+<div class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 max-w-container-max-width mx-auto">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-display-lg text-headline-md text-primary">Sabor y Sentido</span>
+<p class="font-body-md text-body-md text-on-surface-variant text-center md:text-left">© 2024 Sabor y Sentido. Editorial Food Journalism.</p>
+</div>
+<nav class="flex gap-8">
+<a class="text-on-surface-variant hover:underline font-body-md text-body-md" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:underline font-body-md text-body-md" href="#">Términos</a>
+<a class="text-on-surface-variant hover:underline font-body-md text-body-md" href="#">Contacto</a>
+</nav>
+</div>
+</footer>
+</body></html>

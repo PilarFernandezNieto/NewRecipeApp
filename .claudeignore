@@ -1,0 +1,20 @@
+# Dependencias (miles de archivos que Claude no necesita leer)
+vendor/
+node_modules/
+
+# Archivos sensibles (NUNCA debe leer estos)
+.env
+.env.local
+storage/logs/
+
+# Build artifacts
+public/build/
+public/hot/
+
+# Caché
+bootstrap/cache/
+storage/framework/cache/
+
+# Assets compilados (el código fuente está en resources/)
+public/css/
+public/js/
