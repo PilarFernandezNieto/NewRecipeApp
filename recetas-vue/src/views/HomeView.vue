@@ -35,7 +35,7 @@ function recipeImage(recipe) {
       <!-- Editorial hero image -->
       <div class="w-full mb-16 overflow-hidden border border-primary/5">
         <img
-          src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1400&q=80"
+          :src="'/img/banner-lateral.png'"
           alt="Recetario — Cocina con sentido"
           class="w-full h-72 md:h-96 object-cover"
         />
@@ -137,7 +137,9 @@ function recipeImage(recipe) {
 
       <!-- Empty state -->
       <div v-else class="text-center py-24">
-        <span class="material-symbols-outlined text-5xl text-outline-variant mb-4 block">menu_book</span>
+        <span class="material-symbols-outlined text-5xl text-outline-variant mb-4 block"
+          >menu_book</span
+        >
         <p class="text-on-surface-variant">Todavía no hay recetas publicadas.</p>
         <RouterLink
           to="/dashboard"
