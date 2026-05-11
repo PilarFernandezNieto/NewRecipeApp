@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import AdminLayout from '@/layouts/AdminLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,23 +25,27 @@ const router = createRouter({
           name: 'recipe-detail',
           component: () => import('@/views/RecipeDetailView.vue'),
         },
+      ],
+    },
+    {
+      path: '/dashboard',
+      component: AdminLayout,
+      meta: { requiresAuth: true, requiresAdmin: true },
+      children: [
         {
-          path: 'dashboard',
+          path: '',
           name: 'dashboard',
           component: () => import('@/views/DashboardView.vue'),
-          meta: { requiresAuth: true },
         },
         {
-          path: 'dashboard/crear',
+          path: 'crear',
           name: 'recipe-create',
           component: () => import('@/views/RecipeFormView.vue'),
-          meta: { requiresAuth: true },
         },
         {
-          path: 'dashboard/editar/:slug',
+          path: 'editar/:slug',
           name: 'recipe-edit',
           component: () => import('@/views/RecipeFormView.vue'),
-          meta: { requiresAuth: true },
         },
       ],
     },

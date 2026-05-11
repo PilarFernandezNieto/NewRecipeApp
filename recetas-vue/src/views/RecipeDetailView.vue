@@ -91,7 +91,7 @@ function share() {
               </span>
             </div>
 
-            <h1 class="font-display text-4xl md:text-6xl font-bold text-primary mb-3 leading-tight">
+            <h1 class="mb-3 leading-tight">
               {{ recipe.title }}
             </h1>
             <p class="text-lg text-on-surface-variant italic leading-relaxed">
@@ -141,11 +141,7 @@ function share() {
         <!-- Ingredients sidebar -->
         <aside class="lg:col-span-4">
           <div class="lg:sticky lg:top-24">
-            <h2
-              class="font-display text-2xl font-bold text-primary mb-8 border-b border-primary pb-4"
-            >
-              Ingredientes
-            </h2>
+            <h2 class="mb-8 border-b border-primary pb-4">Ingredientes</h2>
 
             <ul class="space-y-4">
               <li
@@ -197,11 +193,7 @@ function share() {
 
         <!-- Steps -->
         <article class="lg:col-span-8">
-          <h2
-            class="font-display text-2xl font-bold text-primary mb-8 border-b border-primary pb-4"
-          >
-            Preparación
-          </h2>
+          <h2 class="mb-8 border-b border-primary pb-4">Preparación</h2>
 
           <div class="instructions-content" v-html="recipe.instructions"></div>
 

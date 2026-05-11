@@ -42,27 +42,31 @@ const imagePreview = ref(null)
 const errors = ref({})
 
 // Precarga los datos cuando estamos editando
-watch(existingRecipe, (recipe) => {
-  if (!recipe) return
-  form.value = {
-    title: recipe.title,
-    description: recipe.description ?? '',
-    category_id: recipe.category?.id ?? '',
-    difficulty_id: recipe.difficulty?.id ?? '',
-    prep_time: recipe.prep_time ?? '',
-    cook_time: recipe.cook_time ?? '',
-    servings: recipe.servings ?? '',
-    instructions: recipe.instructions ?? '',
-    ingredients:
-      recipe.ingredients?.map((ing) => ({
-        id: ing.id,
-        name: ing.name,
-        quantity: ing.quantity ?? '',
-        unit: ing.unit ?? '',
-      })) ?? [],
-  }
-  imagePreview.value = recipe.image ?? null
-}, { immediate: true })
+watch(
+  existingRecipe,
+  (recipe) => {
+    if (!recipe) return
+    form.value = {
+      title: recipe.title,
+      description: recipe.description ?? '',
+      category_id: recipe.category?.id ?? '',
+      difficulty_id: recipe.difficulty?.id ?? '',
+      prep_time: recipe.prep_time ?? '',
+      cook_time: recipe.cook_time ?? '',
+      servings: recipe.servings ?? '',
+      instructions: recipe.instructions ?? '',
+      ingredients:
+        recipe.ingredients?.map((ing) => ({
+          id: ing.id,
+          name: ing.name,
+          quantity: ing.quantity ?? '',
+          unit: ing.unit ?? '',
+        })) ?? [],
+    }
+    imagePreview.value = recipe.image ?? null
+  },
+  { immediate: true },
+)
 
 function onImageChange(event) {
   const file = event.target.files[0]
@@ -128,7 +132,7 @@ async function handleSubmit() {
         <span class="material-symbols-outlined text-base">arrow_back</span>
         Volver al panel
       </RouterLink>
-      <h1 class="font-display text-3xl md:text-4xl font-bold text-primary">
+      <h1>
         {{ isEditing ? 'Editar receta' : 'Nueva receta' }}
       </h1>
     </div>

@@ -24,7 +24,9 @@ watch([page, search, selectedCategory], () => {
 })
 
 // Cuando cambian filtros, volver a la página 1
-watch([search, selectedCategory], () => { page.value = 1 })
+watch([search, selectedCategory], () => {
+  page.value = 1
+})
 
 const params = computed(() => ({
   page: page.value,
@@ -54,10 +56,9 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
 
 <template>
   <div class="max-w-300 mx-auto px-5 md:px-16 py-12">
-
     <!-- Header -->
     <div class="mb-10">
-      <h1 class="font-display text-3xl md:text-4xl font-bold text-primary mb-2">Todas las recetas</h1>
+      <h1 class="mb-2">Todas las recetas</h1>
       <p v-if="meta" class="text-sm text-on-surface-variant">
         {{ meta.total }} recetas encontradas
       </p>
@@ -66,7 +67,9 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
     <!-- Filters -->
     <div class="flex flex-col md:flex-row gap-4 mb-10">
       <!-- Search -->
-      <div class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors flex-1">
+      <div
+        class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors flex-1"
+      >
         <span class="material-symbols-outlined text-outline text-xl">search</span>
         <input
           v-model="search"
@@ -74,13 +77,19 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
           placeholder="Buscar recetas..."
           class="w-full bg-transparent border-none outline-none text-sm text-primary placeholder:text-outline-variant"
         />
-        <button v-if="search" @click="search = ''" class="text-outline hover:text-primary transition-colors">
+        <button
+          v-if="search"
+          @click="search = ''"
+          class="text-outline hover:text-primary transition-colors"
+        >
           <span class="material-symbols-outlined text-base">close</span>
         </button>
       </div>
 
       <!-- Category select -->
-      <div class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors min-w-48">
+      <div
+        class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors min-w-48"
+      >
         <span class="material-symbols-outlined text-outline text-xl">category</span>
         <select
           v-model="selectedCategory"
@@ -141,9 +150,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
           <span class="text-xs font-semibold text-secondary mb-2 block tracking-widest uppercase">
             {{ recipe.category?.name ?? 'Sin categoría' }}
           </span>
-          <h3
-            class="font-display text-xl font-bold text-primary mb-3 leading-snug group-hover:opacity-75 transition-opacity"
-          >
+          <h3 class="mb-3 leading-snug group-hover:opacity-75 transition-opacity">
             {{ recipe.title }}
           </h3>
           <p class="text-sm text-on-surface-variant line-clamp-2">
@@ -155,7 +162,9 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
 
     <!-- Empty state -->
     <div v-else class="text-center py-24">
-      <span class="material-symbols-outlined text-5xl text-outline-variant mb-4 block">search_off</span>
+      <span class="material-symbols-outlined text-5xl text-outline-variant mb-4 block"
+        >search_off</span
+      >
       <p class="text-on-surface-variant mb-2">No se encontraron recetas.</p>
       <button
         v-if="hasActiveFilters"
@@ -174,6 +183,5 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
       :loading="isFetching"
       @update:current-page="page = $event"
     />
-
   </div>
 </template>

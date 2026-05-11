@@ -71,9 +71,7 @@ function recipeImage(recipe) {
     <!-- Recetas de Portada -->
     <section class="max-w-300 mx-auto px-5 md:px-16 pb-24">
       <div class="flex justify-between items-end mb-12">
-        <h2 class="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
-          Recetas de Portada
-        </h2>
+        <h2 class="leading-tight">Recetas de Portada</h2>
         <RouterLink
           :to="{ name: 'recipes' }"
           class="text-sm font-medium text-secondary border-b border-secondary hover:opacity-70 transition-all"
@@ -123,9 +121,7 @@ function recipeImage(recipe) {
             <span class="text-xs font-semibold text-secondary mb-2 block tracking-widest uppercase">
               {{ recipe.category?.name ?? 'Sin categoría' }}
             </span>
-            <h3
-              class="font-display text-xl md:text-2xl font-bold text-primary mb-3 leading-snug group-hover:opacity-75 transition-opacity"
-            >
+            <h3 class="mb-3 leading-snug group-hover:opacity-75 transition-opacity">
               {{ recipe.title }}
             </h3>
             <p class="text-base text-on-surface-variant line-clamp-2">

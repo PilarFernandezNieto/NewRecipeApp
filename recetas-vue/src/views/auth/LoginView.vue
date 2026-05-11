@@ -27,13 +27,16 @@ async function handleSubmit() {
 <template>
   <div>
     <div class="mb-8 text-center">
-      <h1 class="font-display text-3xl font-bold text-primary mb-2">Bienvenido</h1>
+      <h1 class="mb-2">Bienvenido</h1>
       <p class="text-sm text-on-surface-variant">Accede a tu colección de recetas</p>
     </div>
 
     <form @submit.prevent="handleSubmit" class="flex flex-col gap-6">
       <!-- Error -->
-      <p v-if="error" class="text-sm text-error bg-error-container px-4 py-3 border border-error/20">
+      <p
+        v-if="error"
+        class="text-sm text-error bg-error-container px-4 py-3 border border-error/20"
+      >
         {{ error }}
       </p>
 
@@ -42,7 +45,9 @@ async function handleSubmit() {
         <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant">
           Correo electrónico
         </label>
-        <div class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors">
+        <div
+          class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors"
+        >
           <span class="material-symbols-outlined text-outline text-xl">mail</span>
           <input
             v-model="form.email"
@@ -60,7 +65,9 @@ async function handleSubmit() {
         <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant">
           Contraseña
         </label>
-        <div class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors">
+        <div
+          class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors"
+        >
           <span class="material-symbols-outlined text-outline text-xl">lock</span>
           <input
             v-model="form.password"
@@ -79,7 +86,11 @@ async function handleSubmit() {
         :disabled="loading"
         class="mt-2 w-full py-3 bg-primary text-on-primary text-sm font-semibold tracking-widest uppercase transition-opacity hover:opacity-80 disabled:opacity-50"
       >
-        <span v-if="loading" class="material-symbols-outlined text-base animate-spin align-middle mr-1">progress_activity</span>
+        <span
+          v-if="loading"
+          class="material-symbols-outlined text-base animate-spin align-middle mr-1"
+          >progress_activity</span
+        >
         {{ loading ? 'Entrando...' : 'Entrar' }}
       </button>
     </form>
@@ -87,7 +98,10 @@ async function handleSubmit() {
     <!-- Register link -->
     <p class="mt-8 text-center text-sm text-on-surface-variant">
       ¿No tienes cuenta?
-      <RouterLink to="/auth/register" class="text-secondary border-b border-secondary hover:opacity-70 transition-opacity">
+      <RouterLink
+        to="/auth/register"
+        class="text-secondary border-b border-secondary hover:opacity-70 transition-opacity"
+      >
         Regístrate
       </RouterLink>
     </p>

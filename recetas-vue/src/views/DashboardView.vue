@@ -1,7 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRecipes, useDeleteRecipe } from '@/composables/useRecipes'
-import { useIngredients, useCreateIngredient, useUpdateIngredient, useDeleteIngredient } from '@/composables/useIngredients'
+import {
+  useIngredients,
+  useCreateIngredient,
+  useUpdateIngredient,
+  useDeleteIngredient,
+} from '@/composables/useIngredients'
 import PaginationBar from '@/components/PaginationBar.vue'
 
 const activeTab = ref('recipes')
@@ -9,7 +14,11 @@ const activeTab = ref('recipes')
 // --- Tab Mis Recetas ---
 const recipePage = ref(1)
 const recipeParams = computed(() => ({ mine: 1, per_page: 9, page: recipePage.value }))
-const { data: recipesData, isLoading: loadingRecipes, isFetching: fetchingRecipes } = useRecipes(recipeParams)
+const {
+  data: recipesData,
+  isLoading: loadingRecipes,
+  isFetching: fetchingRecipes,
+} = useRecipes(recipeParams)
 const myRecipes = computed(() => recipesData.value?.data ?? [])
 const recipesMeta = computed(() => recipesData.value?.meta ?? null)
 
@@ -18,7 +27,9 @@ const confirmDeleteRecipeId = ref(null)
 
 function confirmDeleteRecipe() {
   deleteRecipe(confirmDeleteRecipeId.value, {
-    onSuccess: () => { confirmDeleteRecipeId.value = null },
+    onSuccess: () => {
+      confirmDeleteRecipeId.value = null
+    },
   })
 }
 
@@ -80,57 +91,71 @@ const confirmDeleteIngredientId = ref(null)
 function saveIngredient() {
   ingredientError.value = ''
   const name = ingredientName.value.trim()
-  if (!name) { ingredientError.value = 'El nombre es obligatorio.'; return }
+  if (!name) {
+    ingredientError.value = 'El nombre es obligatorio.'
+    return
+  }
 
   const payload = { name, description: ingredientDescription.value.trim() || null }
 
   if (editingIngredient.value) {
     updateIngredient(
       { id: editingIngredient.value.id, data: payload },
-      { onSuccess: closeIngredientModal, onError: (e) => { ingredientError.value = e.response?.data?.message ?? 'Error al guardar.' } }
+      {
+        onSuccess: closeIngredientModal,
+        onError: (e) => {
+          ingredientError.value = e.response?.data?.message ?? 'Error al guardar.'
+        },
+      },
     )
   } else {
-    createIngredient(
-      payload,
-      { onSuccess: closeIngredientModal, onError: (e) => { ingredientError.value = e.response?.data?.message ?? 'Error al guardar.' } }
-    )
+    createIngredient(payload, {
+      onSuccess: closeIngredientModal,
+      onError: (e) => {
+        ingredientError.value = e.response?.data?.message ?? 'Error al guardar.'
+      },
+    })
   }
 }
 
 function confirmDeleteIngredient() {
   deleteIngredient(confirmDeleteIngredientId.value, {
-    onSuccess: () => { confirmDeleteIngredientId.value = null },
+    onSuccess: () => {
+      confirmDeleteIngredientId.value = null
+    },
   })
 }
 </script>
 
 <template>
-  <div class="max-w-300 mx-auto px-5 md:px-16 py-12">
-
-    <!-- Header -->
-    <header class="mb-12">
-      <h1 class="font-display text-4xl md:text-5xl font-bold text-primary mb-3">Panel Personal</h1>
-      <p class="text-lg text-on-surface-variant max-w-2xl">
-        Organiza tus creaciones culinarias. Un espacio dedicado a tu artesanía.
-      </p>
-    </header>
-
+  <div class="mx-auto px-5 md:px-16 py-12">
     <!-- Tabs -->
     <div class="flex gap-8 border-b border-primary/10 mb-12 overflow-x-auto">
       <button
         @click="activeTab = 'recipes'"
         class="pb-4 text-sm font-semibold tracking-wide transition-colors whitespace-nowrap"
-        :class="activeTab === 'recipes' ? 'text-primary border-b-2 border-secondary -mb-px' : 'text-on-surface-variant hover:text-primary'"
+        :class="
+          activeTab === 'recipes'
+            ? 'text-primary border-b-2 border-secondary -mb-px'
+            : 'text-on-surface-variant hover:text-primary'
+        "
       >
         Mis Recetas
-        <span v-if="recipesMeta" class="ml-2 px-2 py-0.5 text-xs font-bold bg-secondary/10 text-secondary">
+        <span
+          v-if="recipesMeta"
+          class="ml-2 px-2 py-0.5 text-xs font-bold bg-secondary/10 text-secondary"
+        >
           {{ recipesMeta.total }}
         </span>
       </button>
       <button
         @click="activeTab = 'ingredients'"
         class="pb-4 text-sm font-semibold tracking-wide transition-colors whitespace-nowrap"
-        :class="activeTab === 'ingredients' ? 'text-primary border-b-2 border-secondary -mb-px' : 'text-on-surface-variant hover:text-primary'"
+        :class="
+          activeTab === 'ingredients'
+            ? 'text-primary border-b-2 border-secondary -mb-px'
+            : 'text-on-surface-variant hover:text-primary'
+        "
       >
         Ingredientes
       </button>
@@ -155,23 +180,32 @@ function confirmDeleteIngredient() {
             v-for="recipe in myRecipes"
             :key="recipe.id"
             class="border border-primary/10 bg-surface-container-lowest flex flex-col group"
-            style="box-shadow: 0 20px 40px -20px rgba(0,0,0,0.04)"
+            style="box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.04)"
           >
-            <RouterLink :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }" class="aspect-3/2 overflow-hidden block">
-              <img :src="recipeImage(recipe)" :alt="recipe.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <RouterLink
+              :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }"
+              class="aspect-3/2 overflow-hidden block"
+            >
+              <img
+                :src="recipeImage(recipe)"
+                :alt="recipe.title"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
             </RouterLink>
 
             <div class="p-5 flex flex-col grow">
               <span class="text-xs font-semibold text-secondary tracking-widest uppercase mb-1">
                 {{ recipe.category?.name ?? 'Sin categoría' }}
               </span>
-              <h3 class="font-display text-lg font-bold text-primary mb-2 leading-snug grow">
+              <h3 class="mb-2 leading-snug grow">
                 {{ recipe.title }}
               </h3>
               <div class="flex items-center gap-4 text-on-surface-variant mb-4">
                 <div class="flex items-center gap-1">
                   <span class="material-symbols-outlined text-secondary text-base">schedule</span>
-                  <span class="text-xs font-semibold uppercase">{{ formatTime((recipe.prep_time ?? 0) + (recipe.cook_time ?? 0)) }}</span>
+                  <span class="text-xs font-semibold uppercase">{{
+                    formatTime((recipe.prep_time ?? 0) + (recipe.cook_time ?? 0))
+                  }}</span>
                 </div>
                 <div class="flex items-center gap-1">
                   <span class="material-symbols-outlined text-secondary text-base">group</span>
@@ -201,10 +235,12 @@ function confirmDeleteIngredient() {
             :to="{ name: 'recipe-create' }"
             class="border-2 border-dashed border-primary/15 flex flex-col items-center justify-center p-8 text-center group hover:border-secondary transition-colors min-h-64"
           >
-            <div class="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <div
+              class="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
+            >
               <span class="material-symbols-outlined text-secondary text-2xl">add</span>
             </div>
-            <h3 class="font-display text-lg font-bold text-primary mb-1">Añadir receta</h3>
+            <h3 class="mb-1">Añadir receta</h3>
             <p class="text-sm text-on-surface-variant">Inmortaliza tu creación</p>
           </RouterLink>
         </div>
@@ -221,10 +257,11 @@ function confirmDeleteIngredient() {
 
     <!-- ======== TAB: INGREDIENTES ======== -->
     <section v-if="activeTab === 'ingredients'">
-
       <!-- Cabecera con buscador y botón añadir -->
       <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-8">
-        <div class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors w-full sm:max-w-sm">
+        <div
+          class="flex items-center gap-3 border-b border-outline/40 pb-3 focus-within:border-primary transition-colors w-full sm:max-w-sm"
+        >
           <span class="material-symbols-outlined text-outline text-xl">search</span>
           <input
             v-model="ingredientSearch"
@@ -258,15 +295,19 @@ function confirmDeleteIngredient() {
           class="border border-primary/10 bg-surface p-4 flex flex-col gap-3"
         >
           <div class="flex items-start justify-between gap-2">
-            <h3 class="font-display text-base font-bold text-primary leading-tight">
+            <h3 class="leading-tight">
               {{ ingredient.name }}
             </h3>
           </div>
-          <p v-if="ingredient.description" class="text-xs text-on-surface-variant leading-relaxed line-clamp-2">
+          <p
+            v-if="ingredient.description"
+            class="text-xs text-on-surface-variant leading-relaxed line-clamp-2"
+          >
             {{ ingredient.description }}
           </p>
           <p v-if="ingredient.recipes_count !== undefined" class="text-xs text-on-surface-variant">
-            {{ ingredient.recipes_count }} {{ ingredient.recipes_count === 1 ? 'receta' : 'recetas' }}
+            {{ ingredient.recipes_count }}
+            {{ ingredient.recipes_count === 1 ? 'receta' : 'recetas' }}
           </p>
           <div class="flex gap-2 pt-2 border-t border-primary/10 mt-auto">
             <button
@@ -296,12 +337,14 @@ function confirmDeleteIngredient() {
       @click.self="closeIngredientModal"
     >
       <div class="bg-surface max-w-sm w-full p-8 border border-primary/10">
-        <h3 class="font-display text-xl font-bold text-primary mb-6">
+        <h3 class="mb-6">
           {{ editingIngredient ? 'Editar ingrediente' : 'Nuevo ingrediente' }}
         </h3>
         <div class="flex flex-col gap-6 mb-6">
           <div class="flex flex-col gap-1">
-            <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant">Nombre</label>
+            <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant"
+              >Nombre</label
+            >
             <input
               v-model="ingredientName"
               type="text"
@@ -313,7 +356,9 @@ function confirmDeleteIngredient() {
             <p v-if="ingredientError" class="text-xs text-error mt-1">{{ ingredientError }}</p>
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant">Descripción</label>
+            <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant"
+              >Descripción</label
+            >
             <textarea
               v-model="ingredientDescription"
               rows="3"
@@ -347,7 +392,7 @@ function confirmDeleteIngredient() {
       @click.self="confirmDeleteRecipeId = null"
     >
       <div class="bg-surface max-w-sm w-full p-8 border border-primary/10">
-        <h3 class="font-display text-xl font-bold text-primary mb-2">¿Eliminar receta?</h3>
+        <h3 class="mb-2">¿Eliminar receta?</h3>
         <p class="text-sm text-on-surface-variant mb-6">Esta acción no se puede deshacer.</p>
         <div class="flex gap-3">
           <button
@@ -374,7 +419,7 @@ function confirmDeleteIngredient() {
       @click.self="confirmDeleteIngredientId = null"
     >
       <div class="bg-surface max-w-sm w-full p-8 border border-primary/10">
-        <h3 class="font-display text-xl font-bold text-primary mb-2">¿Eliminar ingrediente?</h3>
+        <h3 class="mb-2">¿Eliminar ingrediente?</h3>
         <p class="text-sm text-on-surface-variant mb-6">Esta acción no se puede deshacer.</p>
         <div class="flex gap-3">
           <button
@@ -393,6 +438,5 @@ function confirmDeleteIngredient() {
         </div>
       </div>
     </div>
-
   </div>
 </template>
