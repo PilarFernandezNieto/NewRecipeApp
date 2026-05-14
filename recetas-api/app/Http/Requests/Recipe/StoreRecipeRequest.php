@@ -18,6 +18,7 @@ class StoreRecipeRequest extends FormRequest
         return [
             'title'         => ['required', 'string', 'max:255'],
             'description'   => ['nullable', 'string'],
+            'source'        => ['nullable', 'string', 'max:500'],
             'category_id'   => ['required', 'integer', 'exists:categories,id'],
             'difficulty_id' => ['required', 'integer', 'exists:difficulties,id'],
             'prep_time'     => ['required', 'integer', 'min:1'],

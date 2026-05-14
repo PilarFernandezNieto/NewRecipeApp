@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRecipes } from '@/composables/useRecipes'
 import { useCategories } from '@/composables/useCategories'
+import RecipeCard from '@/components/RecipeCard.vue'
 
 const router = useRouter()
 const search = ref('')
@@ -20,27 +21,22 @@ function handleSearch() {
 function filterByCategory(slug) {
   router.push({ name: 'recipes', query: { category: slug } })
 }
-
-function recipeImage(recipe) {
-  return recipe.image ?? 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80'
-}
 </script>
 
 <template>
   <div>
     <!-- Hero -->
+
+    <div class="w-full mb-16 overflow-hidden border border-primary/5">
+      <img
+        :src="'/img/banner-lateral.png'"
+        alt="Recetario — Cocina con sentido"
+        class="w-full h-72 md:h-120 object-cover"
+      />
+    </div>
     <section
       class="max-w-300 mx-auto px-5 md:px-16 pt-12 pb-24 flex flex-col items-center text-center"
     >
-      <!-- Editorial hero image -->
-      <div class="w-full mb-16 overflow-hidden border border-primary/5">
-        <img
-          :src="'/img/banner-lateral.png'"
-          alt="Recetario — Cocina con sentido"
-          class="w-full h-72 md:h-96 object-cover"
-        />
-      </div>
-
       <!-- Search bar -->
       <div class="w-full max-w-2xl">
         <div class="flex items-center gap-4 border-b border-primary pb-4">
@@ -93,42 +89,7 @@ function recipeImage(recipe) {
 
       <!-- Recipe grid -->
       <div v-else-if="recipes.length" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-16">
-        <RouterLink
-          v-for="recipe in recipes"
-          :key="recipe.id"
-          :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }"
-          class="group cursor-pointer block"
-        >
-          <div
-            class="relative aspect-3/2 overflow-hidden border border-primary/10 mb-6"
-            style="box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.04)"
-          >
-            <img
-              :src="recipeImage(recipe)"
-              :alt="recipe.title"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div v-if="recipe.avg_rating >= 4.5" class="absolute top-4 right-4">
-              <span
-                class="bg-surface/90 backdrop-blur px-3 py-1 text-xs font-semibold text-secondary border border-secondary/20 uppercase tracking-widest"
-              >
-                Destacado
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <span class="text-xs font-semibold text-secondary mb-2 block tracking-widest uppercase">
-              {{ recipe.category?.name ?? 'Sin categoría' }}
-            </span>
-            <h3 class="mb-3 leading-snug group-hover:opacity-75 transition-opacity">
-              {{ recipe.title }}
-            </h3>
-            <p class="text-base text-on-surface-variant line-clamp-2">
-              {{ recipe.description }}
-            </p>
-          </div>
-        </RouterLink>
+        <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
       </div>
 
       <!-- Empty state -->

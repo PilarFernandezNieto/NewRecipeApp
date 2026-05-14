@@ -10,7 +10,6 @@ use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,7 +17,7 @@ class RecipeController extends Controller
 {
     public function index(Request $request): RecipeCollection
     {
-        $recipes = Recipe::with(['category', 'difficulty', 'user', 'ingredients', 'ratings', 'favoritedBy'])
+        $recipes = Recipe::with(['category', 'difficulty', 'ingredients', 'ratings', 'favoritedBy'])
             ->when($request->category, fn ($q) => $q->where('category_id', $request->category))
             ->when($request->difficulty, fn ($q) => $q->where('difficulty_id', $request->difficulty))
             ->when($request->search, fn ($q) => $q->where('title', 'like', "%{$request->search}%"))
@@ -26,7 +25,6 @@ class RecipeController extends Controller
                 'ingredients',
                 fn ($q) => $q->where('ingredients.id', $request->ingredient)
             ))
-            ->when($request->mine && Auth::check(), fn ($q) => $q->where('user_id', Auth::id()))
             ->latest()
             ->paginate($request->per_page ?? 12);
 
@@ -40,12 +38,13 @@ class RecipeController extends Controller
             $imagePath = $request->file('image')->store('recipes', 'public');
         }
 
-        $recipe = Auth::user()->recipes()->create([
+        $recipe = Recipe::create([
             'category_id'   => $request->category_id,
             'difficulty_id' => $request->difficulty_id,
             'title'         => $request->title,
             'slug'          => Str::slug($request->title) . '-' . Str::random(6),
             'description'   => $request->description,
+            'source'        => $request->source,
             'instructions'  => $request->instructions,
             'image'         => $imagePath,
             'prep_time'     => $request->prep_time,
@@ -58,22 +57,20 @@ class RecipeController extends Controller
         ]);
 
         $recipe->ingredients()->sync($ingredients);
-        $recipe->load(['category', 'difficulty', 'user', 'ingredients', 'ratings', 'favoritedBy']);
+        $recipe->load(['category', 'difficulty', 'ingredients', 'ratings', 'favoritedBy']);
 
         return response()->json(new RecipeResource($recipe), 201);
     }
 
     public function show(Recipe $recipe): RecipeResource
     {
-        $recipe->load(['category', 'difficulty', 'user', 'ingredients', 'ratings', 'favoritedBy']);
+        $recipe->load(['category', 'difficulty', 'ingredients', 'ratings', 'favoritedBy']);
 
         return new RecipeResource($recipe);
     }
 
     public function update(UpdateRecipeRequest $request, Recipe $recipe): JsonResponse
     {
-        $this->authorize('update', $recipe);
-
         if ($request->hasFile('image')) {
             if ($recipe->image) {
                 Storage::disk('public')->delete($recipe->image);
@@ -91,15 +88,13 @@ class RecipeController extends Controller
             $recipe->ingredients()->sync($ingredients);
         }
 
-        $recipe->load(['category', 'difficulty', 'user', 'ingredients', 'ratings', 'favoritedBy']);
+        $recipe->load(['category', 'difficulty', 'ingredients', 'ratings', 'favoritedBy']);
 
         return response()->json(new RecipeResource($recipe));
     }
 
     public function destroy(Recipe $recipe): JsonResponse
     {
-        $this->authorize('delete', $recipe);
-
         if ($recipe->image) {
             Storage::disk('public')->delete($recipe->image);
         }

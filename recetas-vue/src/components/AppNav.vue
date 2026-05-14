@@ -25,14 +25,14 @@ async function logout() {
   <header class="w-full bg-surface border-b border-primary/10 sticky top-0 z-50">
     <nav class="flex justify-between items-center w-full px-5 md:px-16 py-4 max-w-300 mx-auto">
       <!-- Logo -->
-      <RouterLink to="/">
+      <RouterLink :to="{ name: 'home' }">
         <AppLogo size="md" />
       </RouterLink>
 
       <!-- Links -->
       <div class="hidden md:flex items-center gap-8">
         <RouterLink
-          to="/recetas"
+          :to="{ name: 'recipes' }"
           class="text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
           active-class="text-primary font-bold border-b-2 border-primary pb-1"
         >
@@ -40,7 +40,7 @@ async function logout() {
         </RouterLink>
         <RouterLink
           v-if="auth.isAuthenticated"
-          to="/dashboard"
+          :to="{ name: 'dashboard' }"
           class="text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
           active-class="text-primary font-bold border-b-2 border-primary pb-1"
         >
@@ -78,7 +78,7 @@ async function logout() {
           </RouterLink>
         </template>
 
-        <RouterLink v-if="auth.isAuthenticated" to="/dashboard">
+        <RouterLink v-if="auth.isAuthenticated" :to="{ name: 'dashboard' }">
           <span class="material-symbols-outlined text-primary">account_circle</span>
         </RouterLink>
       </div>

@@ -45,13 +45,13 @@ function getImage(r) {
 }
 
 // --- Compartir ---
-function share() {
-  if (navigator.share) {
-    navigator.share({ title: recipe.value?.title, url: window.location.href })
-  } else {
-    navigator.clipboard.writeText(window.location.href)
-  }
-}
+// function share() {
+//   if (navigator.share) {
+//     navigator.share({ title: recipe.value?.title, url: window.location.href })
+//   } else {
+//     navigator.clipboard.writeText(window.location.href)
+//   }
+// }
 </script>
 
 <template>
@@ -181,12 +181,12 @@ function share() {
               </li>
             </ul>
 
-            <!-- Author -->
-            <div class="mt-12 p-6 bg-surface-container-low border border-primary/5">
+            <!-- Source -->
+            <div v-if="recipe.source" class="mt-12 p-6 bg-surface-container-low border border-primary/5">
               <p class="text-xs font-semibold tracking-widest uppercase text-outline mb-1">
-                Receta de
+                Fuente
               </p>
-              <p class="text-base font-medium text-primary">{{ recipe.author?.name }}</p>
+              <p class="text-base font-medium text-primary wrap-break-word">{{ recipe.source }}</p>
             </div>
           </div>
         </aside>
@@ -199,13 +199,13 @@ function share() {
 
           <!-- Actions -->
           <div class="mt-16 pt-8 border-t border-primary/10 flex flex-wrap gap-3">
-            <button
+            <!-- <button
               @click="share"
               class="flex items-center gap-2 border border-primary px-5 py-2 text-sm font-semibold tracking-widest uppercase hover:bg-primary hover:text-on-primary transition-all"
             >
               <span class="material-symbols-outlined text-xl">share</span>
               Compartir
-            </button>
+            </button> -->
             <button
               @click="window.print()"
               class="flex items-center gap-2 border border-primary px-5 py-2 text-sm font-semibold tracking-widest uppercase hover:bg-primary hover:text-on-primary transition-all"

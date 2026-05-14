@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Recipe extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'category_id',
         'difficulty_id',
         'title',
         'slug',
         'description',
+        'source',
         'instructions',
         'image',
         'prep_time',
@@ -29,11 +30,6 @@ class Recipe extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function category(): BelongsTo

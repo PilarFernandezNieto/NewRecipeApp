@@ -29,6 +29,7 @@ const { data: existingRecipe } = useRecipe(slug)
 const form = ref({
   title: '',
   description: '',
+  source: '',
   category_id: '',
   difficulty_id: '',
   prep_time: '',
@@ -49,6 +50,7 @@ watch(
     form.value = {
       title: recipe.title,
       description: recipe.description ?? '',
+      source: recipe.source ?? '',
       category_id: recipe.category?.id ?? '',
       difficulty_id: recipe.difficulty?.id ?? '',
       prep_time: recipe.prep_time ?? '',
@@ -89,6 +91,7 @@ async function handleSubmit() {
   const formData = new FormData()
   formData.append('title', form.value.title)
   formData.append('description', form.value.description)
+  if (form.value.source) formData.append('source', form.value.source)
   formData.append('category_id', form.value.category_id)
   formData.append('difficulty_id', form.value.difficulty_id)
   formData.append('prep_time', form.value.prep_time)
@@ -165,6 +168,19 @@ async function handleSubmit() {
           placeholder="Una frase que capture la esencia del plato"
           class="bg-transparent border-b border-outline/40 pb-3 outline-none text-base text-primary placeholder:text-outline-variant resize-none focus:border-primary transition-colors"
         ></textarea>
+      </div>
+
+      <!-- Fuente -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-semibold tracking-widest uppercase text-on-surface-variant"
+          >Fuente</label
+        >
+        <input
+          v-model="form.source"
+          type="text"
+          placeholder="Ej: Libro de la abuela, Instagram @usuario, https://..."
+          class="bg-transparent border-b border-outline/40 pb-3 outline-none text-base text-primary placeholder:text-outline-variant focus:border-primary transition-colors"
+        />
       </div>
 
       <!-- Categoría + Dificultad -->

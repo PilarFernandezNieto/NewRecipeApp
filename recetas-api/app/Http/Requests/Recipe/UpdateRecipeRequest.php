@@ -18,6 +18,7 @@ class UpdateRecipeRequest extends FormRequest
         return [
             'title'         => ['sometimes', 'string', 'max:255'],
             'description'   => ['nullable', 'string'],
+            'source'        => ['nullable', 'string', 'max:500'],
             'category_id'   => ['sometimes', 'integer', 'exists:categories,id'],
             'difficulty_id' => ['sometimes', 'integer', 'exists:difficulties,id'],
             'prep_time'     => ['sometimes', 'integer', 'min:1'],

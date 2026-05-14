@@ -14,6 +14,7 @@ class RecipeResource extends JsonResource
             'title'       => $this->title,
             'slug'        => $this->slug,
             'description' => $this->description,
+            'source'      => $this->source,
             'instructions' => $this->instructions,
             'image'       => $this->image ? asset('storage/' . $this->image) : null,
             'prep_time'   => $this->prep_time,
@@ -28,10 +29,6 @@ class RecipeResource extends JsonResource
                 'id'   => $this->difficulty->id,
                 'name' => $this->difficulty->name,
                 'slug' => $this->difficulty->slug,
-            ],
-            'author'      => [
-                'id'   => $this->user->id,
-                'name' => $this->user->name,
             ],
             'ingredients' => $this->ingredients->map(fn ($ingredient) => [
                 'id'       => $ingredient->id,

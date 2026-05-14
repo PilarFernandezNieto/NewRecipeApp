@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useRecipes } from '@/composables/useRecipes'
 import { useCategories } from '@/composables/useCategories'
 import PaginationBar from '@/components/PaginationBar.vue'
+import RecipeCard from '@/components/RecipeCard.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,10 +41,6 @@ const { data: categories } = useCategories()
 
 const recipes = computed(() => data.value?.data ?? [])
 const meta = computed(() => data.value?.meta ?? null)
-
-function recipeImage(recipe) {
-  return recipe.image ?? 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80'
-}
 
 function clearFilters() {
   search.value = ''
@@ -129,35 +126,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16 transition-opacity duration-200"
       :class="{ 'opacity-60': isFetching }"
     >
-      <RouterLink
-        v-for="recipe in recipes"
-        :key="recipe.id"
-        :to="{ name: 'recipe-detail', params: { slug: recipe.slug } }"
-        class="group block"
-      >
-        <div
-          class="relative aspect-3/2 overflow-hidden border border-primary/10 mb-6"
-          style="box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.04)"
-        >
-          <img
-            :src="recipeImage(recipe)"
-            :alt="recipe.title"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        </div>
-
-        <div>
-          <span class="text-xs font-semibold text-secondary mb-2 block tracking-widest uppercase">
-            {{ recipe.category?.name ?? 'Sin categoría' }}
-          </span>
-          <h3 class="mb-3 leading-snug group-hover:opacity-75 transition-opacity">
-            {{ recipe.title }}
-          </h3>
-          <p class="text-sm text-on-surface-variant line-clamp-2">
-            {{ recipe.description }}
-          </p>
-        </div>
-      </RouterLink>
+      <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
     </div>
 
     <!-- Empty state -->
