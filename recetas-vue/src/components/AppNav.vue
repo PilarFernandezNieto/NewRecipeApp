@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import AppLogo from '@/components/AppLogo.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -22,12 +23,10 @@ async function logout() {
 
 <template>
   <header class="w-full bg-surface border-b border-primary/10 sticky top-0 z-50">
-    <nav
-      class="flex justify-between items-center w-full px-5 md:px-16 py-4 max-w-300 mx-auto"
-    >
+    <nav class="flex justify-between items-center w-full px-5 md:px-16 py-4 max-w-300 mx-auto">
       <!-- Logo -->
-      <RouterLink to="/" class="font-display text-2xl font-bold text-primary">
-        Recetario
+      <RouterLink to="/">
+        <AppLogo size="md" />
       </RouterLink>
 
       <!-- Links -->
