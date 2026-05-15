@@ -35,6 +35,8 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
+
+    
         if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Credenciales incorrectas.'], 401);
         }

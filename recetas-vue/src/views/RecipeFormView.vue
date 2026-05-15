@@ -6,6 +6,7 @@ import { useCreateRecipe, useUpdateRecipe, useRecipe } from '@/composables/useRe
 import { useCategories } from '@/composables/useCategories'
 import RichTextEditor from '@/components/RichTextEditor.vue'
 import IngredientPicker from '@/components/IngredientPicker.vue'
+import AppButton from '@/components/AppButton.vue'
 import api from '@/lib/axios'
 
 const router = useRouter()
@@ -317,13 +318,9 @@ async function handleSubmit() {
 
       <!-- Submit -->
       <div class="flex items-center gap-4 pt-4 border-t border-primary/10">
-        <button
-          type="submit"
-          :disabled="isPending"
-          class="px-8 py-3 bg-primary text-on-primary text-sm font-semibold tracking-widest uppercase hover:opacity-80 disabled:opacity-50 transition-opacity"
-        >
-          {{ isPending ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Publicar receta' }}
-        </button>
+        <AppButton type="submit" :loading="isPending" loading-text="Guardando...">
+          {{ isEditing ? 'Guardar cambios' : 'Publicar receta' }}
+        </AppButton>
         <RouterLink
           to="/dashboard"
           class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"

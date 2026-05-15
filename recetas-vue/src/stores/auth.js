@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(data) {
     const response = await api.post('/auth/login', data)
+    console.log(response)
     setSession(response.data)
   }
 

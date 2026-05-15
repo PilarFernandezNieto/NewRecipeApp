@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import AppButton from '@/components/AppButton.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -18,6 +19,7 @@ async function handleSubmit() {
     router.push({ name: 'home' })
   } catch (e) {
     error.value = e.response?.data?.message ?? 'Credenciales incorrectas.'
+    console.log(error.value)
   } finally {
     loading.value = false
   }
@@ -81,18 +83,9 @@ async function handleSubmit() {
       </div>
 
       <!-- Submit -->
-      <button
-        type="submit"
-        :disabled="loading"
-        class="mt-2 w-full py-3 bg-primary text-on-primary text-sm font-semibold tracking-widest uppercase transition-opacity hover:opacity-80 disabled:opacity-50"
-      >
-        <span
-          v-if="loading"
-          class="material-symbols-outlined text-base animate-spin align-middle mr-1"
-          >progress_activity</span
-        >
-        {{ loading ? 'Entrando...' : 'Entrar' }}
-      </button>
+      <AppButton type="submit" :loading="loading" loading-text="Entrando..." class="mt-2 w-full">
+        Entrar
+      </AppButton>
     </form>
 
     <!-- Register link -->
