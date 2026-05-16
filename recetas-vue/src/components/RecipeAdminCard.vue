@@ -61,7 +61,7 @@ function formatTime(minutes) {
       <div class="flex gap-2 border-t border-primary/10 pt-4">
         <RouterLink
           :to="{ name: 'recipe-edit', params: { slug: recipe.slug } }"
-          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-semibold tracking-wide uppercase border border-primary/20 hover:bg-primary hover:text-on-primary transition-all"
+          class="flex-1 flex items-center justify-center gap-1 py-2 text-xs font-semibold tracking-wide uppercase border border-secondary hover:bg-secondary hover:text-on-primary transition-all"
         >
           <span class="material-symbols-outlined text-sm">edit</span>
           Editar

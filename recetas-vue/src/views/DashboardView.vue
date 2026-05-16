@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRecipes, useDeleteRecipe } from '@/composables/useRecipes'
 import {
   useIngredients,
@@ -9,6 +9,7 @@ import {
 } from '@/composables/useIngredients'
 import PaginationBar from '@/components/PaginationBar.vue'
 import RecipeAdminCard from '@/components/RecipeAdminCard.vue'
+import AppButton from '@/components/AppButton.vue'
 
 const activeTab = ref('recipes')
 
@@ -36,12 +37,17 @@ function confirmDeleteRecipe() {
 
 // --- Tab Ingredientes ---
 const ingredientSearch = ref('')
+const ingredientPage = ref(1)
 const ingredientParams = computed(() => ({
   search: ingredientSearch.value || undefined,
   per_page: 24,
+  page: ingredientPage.value,
 }))
-const { data: ingredientsData, isLoading: loadingIngredients } = useIngredients(ingredientParams)
-const ingredients = computed(() => ingredientsData.value?.data ?? ingredientsData.value ?? [])
+const { data: ingredientsData, isLoading: loadingIngredients, isFetching: fetchingIngredients } = useIngredients(ingredientParams)
+const ingredients = computed(() => ingredientsData.value?.data ?? [])
+const ingredientsMeta = computed(() => ingredientsData.value?.meta ?? null)
+
+watch(ingredientSearch, () => { ingredientPage.value = 1 })
 
 // Modal crear / editar ingrediente
 const ingredientModal = ref(false)
@@ -212,13 +218,17 @@ function confirmDeleteIngredient() {
             class="w-full bg-transparent border-none outline-none text-sm text-primary placeholder:text-outline-variant"
           />
         </div>
-        <button
+
+        <AppButton
+          type="submit"
+          :loading="isPending"
+          loading-text="Guardando..."
           @click="openCreateIngredient"
-          class="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary text-sm font-semibold tracking-widest uppercase hover:opacity-80 transition-opacity whitespace-nowrap"
+          class="flex items-center gap-2"
         >
           <span class="material-symbols-outlined text-base">add</span>
-          Nuevo ingrediente
-        </button>
+          Nuevo ingrendiente
+        </AppButton>
       </div>
 
       <!-- Skeleton -->
@@ -230,7 +240,11 @@ function confirmDeleteIngredient() {
       </div>
 
       <!-- Grid -->
-      <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        v-else
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 transition-opacity duration-200"
+        :class="{ 'opacity-60': fetchingIngredients }"
+      >
         <div
           v-for="ingredient in ingredients"
           :key="ingredient.id"
@@ -254,7 +268,7 @@ function confirmDeleteIngredient() {
           <div class="flex gap-2 pt-2 border-t border-primary/10 mt-auto">
             <button
               @click="openEditIngredient(ingredient)"
-              class="flex-1 flex items-center justify-center gap-1 py-1.5 text-xs font-semibold tracking-wide uppercase border border-primary/20 hover:bg-primary hover:text-on-primary transition-all"
+              class="flex-1 flex items-center justify-center gap-1 py-1.5 text-xs font-semibold tracking-wide uppercase border border-secondary hover:bg-secondary hover:text-on-primary transition-all"
             >
               <span class="material-symbols-outlined text-sm">edit</span>
               Editar
@@ -268,6 +282,14 @@ function confirmDeleteIngredient() {
           </div>
         </div>
       </div>
+
+      <PaginationBar
+        v-if="ingredientsMeta"
+        :current-page="ingredientsMeta.current_page"
+        :last-page="ingredientsMeta.last_page"
+        :loading="fetchingIngredients"
+        @update:current-page="ingredientPage = $event"
+      />
     </section>
 
     <!-- ======== MODALES ======== -->
@@ -313,7 +335,7 @@ function confirmDeleteIngredient() {
           <button
             @click="saveIngredient"
             :disabled="savingIngredient"
-            class="flex-1 py-2 bg-primary text-on-primary text-sm font-semibold tracking-wide uppercase hover:opacity-80 disabled:opacity-50 transition-opacity"
+            class="flex-1 py-2 bg-secondary text-on-secondary text-sm font-semibold tracking-wide uppercase hover:opacity-80 disabled:opacity-50 transition-opacity"
           >
             {{ savingIngredient ? 'Guardando...' : 'Guardar' }}
           </button>
