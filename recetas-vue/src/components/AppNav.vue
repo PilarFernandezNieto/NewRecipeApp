@@ -40,7 +40,7 @@ async function logout() {
         </RouterLink>
         <RouterLink
           v-if="auth.isAuthenticated"
-          :to="{ name: 'dashboard' }"
+          :to="{ name: 'dashboard-recipes' }"
           class="text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
           active-class="text-primary font-bold border-b-2 border-primary pb-1"
         >
@@ -78,7 +78,7 @@ async function logout() {
           </RouterLink>
         </template>
 
-        <RouterLink v-if="auth.isAuthenticated" :to="{ name: 'dashboard' }">
+        <RouterLink v-if="auth.isAuthenticated" :to="{ name: 'dashboard-recipes' }">
           <span class="material-symbols-outlined text-primary">account_circle</span>
         </RouterLink>
       </div>

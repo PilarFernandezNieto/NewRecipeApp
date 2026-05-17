@@ -34,18 +34,27 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'dashboard',
-          component: () => import('@/views/DashboardView.vue'),
+          redirect: { name: 'dashboard-recipes' },
+        },
+        {
+          path: 'recetas',
+          name: 'dashboard-recipes',
+          component: () => import('@/views/admin/DashboardRecipesView.vue'),
+        },
+        {
+          path: 'ingredientes',
+          name: 'dashboard-ingredients',
+          component: () => import('@/views/admin/DashboardIngredientsView.vue'),
         },
         {
           path: 'crear',
           name: 'recipe-create',
-          component: () => import('@/views/RecipeFormView.vue'),
+          component: () => import('@/views/admin/RecipeFormView.vue'),
         },
         {
           path: 'editar/:slug',
           name: 'recipe-edit',
-          component: () => import('@/views/RecipeFormView.vue'),
+          component: () => import('@/views/admin/RecipeFormView.vue'),
         },
       ],
     },

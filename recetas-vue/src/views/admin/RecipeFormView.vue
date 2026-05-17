@@ -116,7 +116,7 @@ async function handleSubmit() {
     } else {
       await createRecipe(formData)
     }
-    router.push({ name: 'dashboard' })
+    router.push({ name: 'dashboard-recipes' })
   } catch (e) {
     if (e.response?.status === 422) {
       errors.value = e.response.data.errors ?? {}

@@ -74,6 +74,7 @@ const hasActiveFilters = computed(() => search.value || selectedCategory.value)
           placeholder="Buscar recetas..."
           class="w-full bg-transparent border-none outline-none text-sm text-primary placeholder:text-outline-variant"
         />
+
         <button
           v-if="search"
           @click="search = ''"
